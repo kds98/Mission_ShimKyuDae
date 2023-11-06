@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class App {
     private int quotesNumber = 0;
+    String cmd;
     List<String> quotesList = new ArrayList<>();
     List<String> authorList = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
 
     public void run() {
-        String cmd;
 
         System.out.println("== 명언 앱 ==");
         while (true) {
@@ -21,16 +21,23 @@ public class App {
 
             if (cmd.equals("종료")) {
                 System.exit(0);
-            }
-
-            if (cmd.equals("등록")) {
+            } else if (cmd.equals("등록")) {
                 createQuotes();
-            }
-
-            if (cmd.equals("목록")) {
+            } else if (cmd.equals("목록")) {
                 listView();
+            } else if (cmd.startsWith("삭제")) {
+                delete();
             }
         }
+    }
+
+    private void delete() {
+        String[] cmdBits = cmd.split("\\?", 2);
+        String[] cmdBitsArray = cmdBits[1].split("=");
+//        System.out.println(cmdBitsArray[1]);
+        quotesList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
+        authorList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
+        System.out.printf("%s번 명언이 삭제되었습니다.\n", cmdBitsArray[1]);
     }
 
     private void listView() {
