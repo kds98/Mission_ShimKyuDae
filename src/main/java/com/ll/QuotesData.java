@@ -26,6 +26,4 @@ public class QuotesData {
     public String getQuote(){
         return quote;
     }
-
-
 }

@@ -1,15 +1,15 @@
 package com.ll;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
+    Rq rq = new Rq();
     private String cmd;
     private int quotesNumber = 0;
     private List<String> quotesList = new ArrayList<>();
     private List<String> authorList = new ArrayList<>();
     private List<QuotesData> quotesDataList = new ArrayList<>();
+    //    Map<Integer, QuotesData> quotesDataList = new HashMap<>();
     Scanner scanner = new Scanner(System.in);
 
     public void run() {
@@ -18,41 +18,62 @@ public class App {
         while (true) {
             System.out.print("명령) ");
 
-            cmd = scanner.nextLine();
+//            cmd = scanner.nextLine();
+            rq.inputCmd();
 
-            if (cmd.equals("종료")) {
+            if (rq.getCmd().equals("종료")) {
                 System.exit(0);
-            } else if (cmd.equals("등록")) {
+            } else if (rq.getCmd().equals("등록")) {
                 createQuotes();
-            } else if (cmd.equals("목록")) {
+            } else if (rq.getCmd().equals("목록")) {
                 listView();
-            } else if (cmd.startsWith("삭제")) {
+            } else if (rq.getCmd().startsWith("삭제")) {
                 delete();
+            } else if (rq.getCmd().startsWith("수정")) {
+                modify();
             }
         }
     }
 
+    private void modify() {
+
+    }
+
+    private int getIndexQuotesDataList(int id) {
+        for (int i = 0; i < quotesDataList.size(); i++) {
+            QuotesData quotesData = quotesDataList.get(i);
+
+            if (quotesData.getIndex() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
     private void delete() {
-        String[] cmdBits = cmd.split("\\?", 2);
-        String[] cmdBitsArray = cmdBits[1].split("=");
-        int deleteId = Integer.parseInt(cmdBitsArray[1]);
+//        String[] cmdBits = rq.getCmd().split("\\?", 2);
+//        String[] cmdBitsArray = cmdBits[1].split("=");
+        int deleteId = rq.getParseIntCmd();
+        int index = getIndexQuotesDataList(deleteId);
 
 //        System.out.println(cmdBitsArray[1]);
-        try {
+
 //            quotesList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
 //            authorList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
-            if(quotesDataList.get(deleteId - 1).getIndex() == deleteId){
-                quotesDataList.remove(deleteId - 1);
-                System.out.printf("%d번 명언이 삭제되었습니다.\n", deleteId);
-            }
+        if (index == -1) {
 
-        } catch (IndexOutOfBoundsException e){
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", deleteId);
+        } else {
+            quotesDataList.remove(index);
+            System.out.printf("%d번 명언이 삭제되었습니다.\n", deleteId);
         }
+
+    }
 //        quotesList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
 //        authorList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
 //        System.out.printf("%s번 명언이 삭제되었습니다.\n", cmdBitsArray[1]);
-    }
+
 
     private void listView() {
         System.out.println("번호 / 작가 / 명언");
@@ -74,7 +95,6 @@ public class App {
 //        authorList.add(scanner.nextLine());
         quotesNumber++;
         quotesDataList.add(new QuotesData(quotesNumber, quotes, author));
-
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotesNumber);
     }
