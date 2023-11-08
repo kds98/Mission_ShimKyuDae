@@ -3,11 +3,11 @@ package com.ll;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QuotesData {
-    @JsonProperty("index")
+    @JsonProperty("id")
     private int index;
-    @JsonProperty("authorName")
+    @JsonProperty("author")
     private String authorName;
-    @JsonProperty("quote")
+    @JsonProperty("content")
     private String quote;
 
     public QuotesData(int index, String authorName, String quote) {

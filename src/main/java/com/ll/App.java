@@ -10,12 +10,8 @@ import java.util.*;
 public class App {
     Rq rq = new Rq();
     ObjectMapper objectMapper = new ObjectMapper();
-//    private String cmd;
     private int quotesNumber = 0;
-//    private List<String> quotesList = new ArrayList<>();
-//    private List<String> authorList = new ArrayList<>();
     final private List<QuotesData> quotesDataList = new ArrayList<>();
-    //    Map<Integer, QuotesData> quotesDataList = new HashMap<>();
     Scanner scanner = new Scanner(System.in);
 
     public void run() {
@@ -25,8 +21,6 @@ public class App {
         while (true) {
             System.out.print("명령) ");
 
-
-//            cmd = scanner.nextLine();
             rq.inputCmd();
 
             if (rq.getCmd().equals("종료")) {
@@ -45,7 +39,7 @@ public class App {
                 try {
                     ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
                     writer.writeValue(new File("data.json"), quotesDataList);
-                    System.out.println("Data has been written to data.json.");
+                    System.out.println("data.json 파일의 내용이 갱신되었습니다.");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -92,17 +86,10 @@ public class App {
 
 
     private void delete() {
-//        String[] cmdBits = rq.getCmd().split("\\?", 2);
-//        String[] cmdBitsArray = cmdBits[1].split("=");
         int deleteId = rq.getParseIntCmd();
         int index = getIndexQuotesDataList(deleteId);
 
-//        System.out.println(cmdBitsArray[1]);
-
-//            quotesList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
-//            authorList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
         if (index == -1) {
-
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", deleteId);
         } else {
             quotesDataList.remove(index);
@@ -110,10 +97,6 @@ public class App {
         }
 
     }
-//        quotesList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
-//        authorList.remove(Integer.parseInt(cmdBitsArray[1]) - 1);
-//        System.out.printf("%s번 명언이 삭제되었습니다.\n", cmdBitsArray[1]);
-
 
     private void listView() {
         System.out.println("번호 / 작가 / 명언");
@@ -128,23 +111,14 @@ public class App {
 
         System.out.print("명언 : ");
         String quotes = scanner.nextLine();
-//        quotesList.add(scanner.nextLine());
 
         System.out.print("작가 : ");
         String author = scanner.nextLine();
-//        authorList.add(scanner.nextLine());
+
         quotesNumber++;
         quotesDataList.add(new QuotesData(quotesNumber, author, quotes));
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotesNumber);
-
-//        try {
-//            ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
-//            writer.writeValue(new File("data.json"), quotesDataList);
-//            System.out.println("Data has been written to data.json.");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void createFile() {

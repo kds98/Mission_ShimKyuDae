@@ -1,13 +1,9 @@
 [ {
-  "index" : 1,
-  "authorName" : "심규대",
-  "quote" : "하이"
+  "id" : 1,
+  "author" : "심규대",
+  "content" : "안녕"
 }, {
-  "index" : 2,
-  "authorName" : "이재윤",
-  "quote" : "하이"
-}, {
-  "index" : 1,
-  "authorName" : "심규대",
-  "quote" : "하이"
+  "id" : 2,
+  "author" : "심규대",
+  "content" : "하이"
 } ]
