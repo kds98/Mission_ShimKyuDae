@@ -4,11 +4,11 @@ import java.util.*;
 
 public class App {
     Rq rq = new Rq();
-    private String cmd;
+//    private String cmd;
     private int quotesNumber = 0;
-    private List<String> quotesList = new ArrayList<>();
-    private List<String> authorList = new ArrayList<>();
-    private List<QuotesData> quotesDataList = new ArrayList<>();
+//    private List<String> quotesList = new ArrayList<>();
+//    private List<String> authorList = new ArrayList<>();
+    final private List<QuotesData> quotesDataList = new ArrayList<>();
     //    Map<Integer, QuotesData> quotesDataList = new HashMap<>();
     Scanner scanner = new Scanner(System.in);
 
@@ -36,7 +36,17 @@ public class App {
     }
 
     private void modify() {
-
+        int modifyId = rq.getParseIntCmd();
+        int index = getIndexQuotesDataList(modifyId);
+        System.out.println("명언)(기존) : " + quotesDataList.get(index).getQuote());
+        System.out.print("명언 : ");
+        String modifyQuotes = scanner.nextLine();
+        QuotesData quotesData = quotesDataList.get(index);
+        quotesData.setQuote(modifyQuotes);
+        System.out.println("작가)(기존) : " + quotesDataList.get(index).getAuthorName());
+        System.out.print("작가 : ");
+        String modifyAuthorName = scanner.nextLine();
+        quotesData.setAuthorName(modifyAuthorName);
     }
 
     private int getIndexQuotesDataList(int id) {
@@ -80,7 +90,7 @@ public class App {
         System.out.println("----------------------");
 
         for (int i = quotesDataList.size() - 1; i >= 0; i--) {
-            System.out.printf("%d / %s / %s\n", quotesDataList.get(i).getIndex(), quotesDataList.get(i).getAutorName(), quotesDataList.get(i).getQuote());
+            System.out.printf("%d / %s / %s\n", quotesDataList.get(i).getIndex(), quotesDataList.get(i).getAuthorName(), quotesDataList.get(i).getQuote());
         }
     }
 
@@ -94,7 +104,7 @@ public class App {
         String author = scanner.nextLine();
 //        authorList.add(scanner.nextLine());
         quotesNumber++;
-        quotesDataList.add(new QuotesData(quotesNumber, quotes, author));
+        quotesDataList.add(new QuotesData(quotesNumber, author, quotes));
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotesNumber);
     }

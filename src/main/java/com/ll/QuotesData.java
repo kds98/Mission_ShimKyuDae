@@ -6,24 +6,32 @@ import lombok.Setter;
 
 public class QuotesData {
     private int index;
-    private String autorName;
+    private String authorName;
     private String quote;
 
-    public QuotesData(int index, String autorName, String quote){
+    public QuotesData(int index, String authorName, String quote) {
         this.index = index;
-        this.autorName = autorName;
+        this.authorName = authorName;
         this.quote = quote;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return index;
     }
 
-    public String getAutorName(){
-        return autorName;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public String getQuote(){
+    public String getQuote() {
         return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }
