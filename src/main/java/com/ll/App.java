@@ -1,5 +1,6 @@
 package com.ll;
 
+import java.io.*;
 import java.util.*;
 
 public class App {
@@ -13,6 +14,15 @@ public class App {
     Scanner scanner = new Scanner(System.in);
 
     public void run() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                QuotesData quotesData = QuotesData.fromString(line);
+                quotesDataList.add(quotesData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("== 명언 앱 ==");
         while (true) {
@@ -107,5 +117,13 @@ public class App {
         quotesDataList.add(new QuotesData(quotesNumber, author, quotes));
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotesNumber);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt"))) {
+            for (QuotesData item : quotesDataList) {
+                writer.write(item.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

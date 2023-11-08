@@ -15,6 +15,19 @@ public class QuotesData {
         this.quote = quote;
     }
 
+    @Override
+    public String toString() {
+        return index + " / " + authorName + " / " + quote;
+    }
+
+    public static QuotesData fromString(String s) {
+        String[] parts = s.split(" / ");
+        int number = Integer.parseInt(parts[0]);
+        String text1 = parts[1];
+        String text2 = parts[2];
+        return new QuotesData(number, text1, text2);
+    }
+
     public int getIndex() {
         return index;
     }
