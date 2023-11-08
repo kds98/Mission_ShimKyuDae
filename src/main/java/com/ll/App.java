@@ -1,10 +1,15 @@
 package com.ll;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.*;
 import java.util.*;
 
 public class App {
     Rq rq = new Rq();
+    ObjectMapper objectMapper = new ObjectMapper();
 //    private String cmd;
     private int quotesNumber = 0;
 //    private List<String> quotesList = new ArrayList<>();
@@ -14,6 +19,41 @@ public class App {
     Scanner scanner = new Scanner(System.in);
 
     public void run() {
+        readFile();
+
+        System.out.println("== 명언 앱 ==");
+        while (true) {
+            System.out.print("명령) ");
+
+
+//            cmd = scanner.nextLine();
+            rq.inputCmd();
+
+            if (rq.getCmd().equals("종료")) {
+                createFile();
+                System.exit(0);
+            } else if (rq.getCmd().equals("등록")) {
+                createQuotes();
+            } else if (rq.getCmd().equals("목록")) {
+                listView();
+            } else if (rq.getCmd().startsWith("삭제")) {
+                delete();
+
+            } else if (rq.getCmd().startsWith("수정")) {
+                modify();
+            } else if (rq.getCmd().equals("빌드")) {
+                try {
+                    ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
+                    writer.writeValue(new File("data.json"), quotesDataList);
+                    System.out.println("Data has been written to data.json.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void readFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -22,26 +62,6 @@ public class App {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        System.out.println("== 명언 앱 ==");
-        while (true) {
-            System.out.print("명령) ");
-
-//            cmd = scanner.nextLine();
-            rq.inputCmd();
-
-            if (rq.getCmd().equals("종료")) {
-                System.exit(0);
-            } else if (rq.getCmd().equals("등록")) {
-                createQuotes();
-            } else if (rq.getCmd().equals("목록")) {
-                listView();
-            } else if (rq.getCmd().startsWith("삭제")) {
-                delete();
-            } else if (rq.getCmd().startsWith("수정")) {
-                modify();
-            }
         }
     }
 
@@ -117,6 +137,17 @@ public class App {
         quotesDataList.add(new QuotesData(quotesNumber, author, quotes));
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotesNumber);
+
+//        try {
+//            ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
+//            writer.writeValue(new File("data.json"), quotesDataList);
+//            System.out.println("Data has been written to data.json.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void createFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt"))) {
             for (QuotesData item : quotesDataList) {
                 writer.write(item.toString());

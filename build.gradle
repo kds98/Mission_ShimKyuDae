@@ -10,7 +10,11 @@ repositories {
 }
 
 dependencies {
-    //assertThat
+    // jackson 추가
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2' // Jackson 버전에 맞게 변경
+
+
+    // assertThat
     testImplementation 'org.assertj:assertj-core:3.24.2'
 
     // 롬복추가

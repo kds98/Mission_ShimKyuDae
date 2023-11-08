@@ -1,12 +1,13 @@
 package com.ll;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QuotesData {
+    @JsonProperty("index")
     private int index;
+    @JsonProperty("authorName")
     private String authorName;
+    @JsonProperty("quote")
     private String quote;
 
     public QuotesData(int index, String authorName, String quote) {
@@ -22,10 +23,10 @@ public class QuotesData {
 
     public static QuotesData fromString(String s) {
         String[] parts = s.split(" / ");
-        int number = Integer.parseInt(parts[0]);
-        String text1 = parts[1];
-        String text2 = parts[2];
-        return new QuotesData(number, text1, text2);
+        int index = Integer.parseInt(parts[0]);
+        String authorName = parts[1];
+        String quote = parts[2];
+        return new QuotesData(index, authorName, quote);
     }
 
     public int getIndex() {
